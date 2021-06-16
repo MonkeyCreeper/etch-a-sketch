@@ -5,7 +5,7 @@ function makeRows(rows, cols) {
   container.style.setProperty("--grid-cols", cols);
   for (c = 0; c < rows * cols; c++) {
     let cell = document.createElement("div");
-   //cell.innerText = c + 1;  //Nützlich um zu zeigen wie viele Zellen erstellt wurden. Macht aber Größe des kaputt (overflow), wegen Größe der Ziffern
+    //cell.innerText = c + 1;  //Nützlich um zu zeigen wie viele Zellen erstellt wurden. Macht aber Größe des kaputt (overflow), wegen Größe der Ziffern
     container.appendChild(cell).className = "grid-item";
   }
 }
@@ -36,19 +36,23 @@ function resetColor() {
 const sizeButton = document.getElementById("size-button");
 sizeButton.addEventListener("click", changeSize);
 
+//Change the Size of the Grid or rather how many divs
 function changeSize() {
   let n = prompt("Please Enter A Size For Your Grid (1-64),");
-  let container = document.getElementById("container");
-  console.log(container.length);
-  while (container.firstChild){
-    container.removeChild(container.lastChild)
+  if (n>=1 && n<=64) {
+    let container = document.getElementById("container");
+    while (container.firstChild) {
+      container.removeChild(container.lastChild);
+    }
+    makeRows(n, n);
+    let grid_items = document.querySelectorAll(".grid-item");
+    grid_items.forEach((griditem) => {
+      griditem.addEventListener("mouseover", changeColor);
+    });
   }
-  console.log(container.length);
-  makeRows(n, n);
-  let grid_items = document.querySelectorAll(".grid-item");
-  grid_items.forEach((griditem) => {
-    griditem.addEventListener("mouseover", changeColor);
-  }); 
+  else{
+    alert("Error! Please Enter a Size between 1-64")
+  }
 }
 
 /*let div = document.createElement("div");
